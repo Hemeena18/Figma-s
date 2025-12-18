@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Paper,
@@ -10,28 +10,29 @@ import {
 import GoogleIcon from "@mui/icons-material/Google";
 import AppleIcon from "@mui/icons-material/Apple";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const USER_EMAIL = "arul@gmail.com";
 const USER_PASSWORD = "123456";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    setError("");
-    if (email === USER_EMAIL && pass === USER_PASSWORD) {
+  // useForm hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    clearErrors("login"); // clear previous login error
+    if (data.email === USER_EMAIL && data.password === USER_PASSWORD) {
       navigate("/dashboard");
     } else {
-      setError("Invalid Email or Password!");
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleLogin();
+      setError("login", { type: "manual", message: "Invalid Email or Password!" });
     }
   };
 
@@ -50,51 +51,60 @@ const Login = () => {
           Sign in
         </Typography>
 
-        <TextField
-          fullWidth
-          placeholder="Enter your email address"
-          variant="standard"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={handleKeyDown}   
-          sx={{ mb: 3 }}
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            fullWidth
+            placeholder="Enter your email address"
+            variant="standard"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Invalid email address",
+              },
+            })}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+            sx={{ mb: 3 }}
+          />
 
-        <TextField
-          fullWidth
-          placeholder="Password"
-          variant="standard"
-          type="password"
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
-          onKeyDown={handleKeyDown}   
-        />
+          <TextField
+            fullWidth
+            placeholder="Password"
+            variant="standard"
+            type="password"
+            {...register("password", { required: "Password is required" })}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+            sx={{ mb: 1 }}
+          />
 
-        <Typography sx={{ textAlign: "right", mt: 1, color: "gray" }}>
-          Forgot password
-        </Typography>
-
-        {error && (
-          <Typography sx={{ color: "red", mt: 1, fontSize: 13 }}>
-            {error}
+          <Typography sx={{ textAlign: "right", mt: 1, color: "gray" }}>
+            Forgot password
           </Typography>
-        )}
 
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleLogin}
-          sx={{
-            mt: 3,
-            backgroundColor: "#0047BB",
-            height: 46,
-            textTransform: "none",
-            borderRadius: 1,
-            "&:hover": { backgroundColor: "#003a99" },
-          }}
-        >
-          Sign in
-        </Button>
+          {errors.login && (
+            <Typography sx={{ color: "red", mt: 1, fontSize: 13 }}>
+              {errors.login.message}
+            </Typography>
+          )}
+
+          <Button
+            fullWidth
+            variant="contained"
+            type="submit"
+            sx={{
+              mt: 3,
+              backgroundColor: "#0047BB",
+              height: 46,
+              textTransform: "none",
+              borderRadius: 1,
+              "&:hover": { backgroundColor: "#003a99" },
+            }}
+          >
+            Sign in
+          </Button>
+        </form>
 
         <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
           <Divider sx={{ flex: 1 }} />
