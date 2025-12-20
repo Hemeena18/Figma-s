@@ -12,6 +12,7 @@ import AppleIcon from "@mui/icons-material/Apple";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+// default email & password
 const USER_EMAIL = "arul@gmail.com";
 const USER_PASSWORD = "123456";
 
