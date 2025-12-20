@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Layout from "./Components/Layouts/layout";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Projects from "./pages/Projects";
-import Activities from "./pages/Activities";
-import Analysis from "./pages/Analysis";
+import Layout from "./features/components/layouts/Layout";
+import Login from "./features/auth/Login";
+import Dashboard from "./features/dashboard/Dashboard";
+import Projects from "./features/projects/Projects";
+import Activities from "./features/activities/Activities";
+import Analysis from "./features/analysis/Analysis";
 
 function App() {
   return (

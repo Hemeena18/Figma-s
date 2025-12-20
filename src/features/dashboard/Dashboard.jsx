@@ -1,9 +1,11 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import TopCards from "../Components/common/TopCards";
-import RemainderCard from "../Components/common/RemainderCard";
-import MouChart from "../Components/common/MouChart";
-import LongTermPartnership from "../Components/common/LongTermPartnership"; 
+import TopCards from "../dashboard/components/TopCards";
+import RemainderCard from "../dashboard/components/RemainderCard";
+import MouChart from "../dashboard/components/MouChart";
+import LongTermPartnership from "../dashboard/components/LongTermPartnership";
+
+
 
 const reminders = [ 
   { id: "1234566", name: "PSN College of Engineering and Technology", status: "Expires on", date: "27 Aug 2025"}, 
