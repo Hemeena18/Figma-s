@@ -61,7 +61,7 @@ const MouChart = () => {
     <Paper
       elevation={1}
       sx={{
-        width: "105%",
+        width: "92%",
         height: 300,
         p: 2,
         borderRadius: 2,

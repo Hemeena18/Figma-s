@@ -12,21 +12,16 @@ import AppleIcon from "@mui/icons-material/Apple";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-const USER_EMAIL = "arul@gmail.com";
-const USER_PASSWORD = "123456";
-
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {
-    clearErrors("login");
-    if (data.email === USER_EMAIL && data.password === USER_PASSWORD) {
-      navigate("/dashboard");
-    } else {
-      setError("login", { type: "manual", message: "Invalid Email or Password!" });
-    }
+    localStorage.setItem("userName", data.name);
+    localStorage.setItem("userEmail", data.email);
+    localStorage.setItem("userPassword", data.password);
+    navigate("/dashboard");
   };
 
   return (
@@ -39,12 +34,26 @@ const Login = () => {
         backgroundColor: "#ffffff",
       }}
     >
-      <Paper elevation={0} sx={{ width: 380, p: 3 }}>
+      <Paper elevation={0} sx={{ width: 380, p: 3, borderRadius: 2 }}>
         <Typography variant="h4" sx={{ mb: 3, fontWeight: 700 }}>
-          Sign in
+          Sign up
         </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Name Field */}
+          <TextField
+            fullWidth
+            placeholder="Enter your name"
+            variant="standard"
+            {...register("name", { required: "Name is required" })}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            sx={{
+              mb: 3,
+              "& .MuiInputBase-input": { paddingBottom: "25px" }, // space between text & underline
+            }}
+          />
+
           {/* Email Field */}
           <TextField
             fullWidth
@@ -52,13 +61,16 @@ const Login = () => {
             variant="standard"
             {...register("email", {
               required: "Email is required",
-              pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email address" },
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: "Invalid email address",
+              },
             })}
             error={!!errors.email}
             helperText={errors.email?.message}
             sx={{
               mb: 3,
-              "& .MuiInputBase-input": { paddingBottom: "15px" },
+              "& .MuiInputBase-input": { paddingBottom: "25px" },
             }}
           />
 
@@ -68,12 +80,15 @@ const Login = () => {
             placeholder="Password"
             type="password"
             variant="standard"
-            {...register("password", { required: "Password is required" })}
+            {...register("password", {
+              required: "Password is required",
+              minLength: { value: 6, message: "Password must be 6+ chars" },
+            })}
             error={!!errors.password}
             helperText={errors.password?.message}
             sx={{
-              mb: 0.5, // reduced spacing below password
-              "& .MuiInputBase-input": { paddingBottom: "15px" },
+              mb: 1,
+              "& .MuiInputBase-input": { paddingBottom: "25px" },
             }}
           />
 
@@ -81,8 +96,8 @@ const Login = () => {
           <Typography
             sx={{
               textAlign: "right",
-              mt: 0.5, // reduced top margin
-              mb: 1.5, // reduced bottom margin
+              mt: 1,
+              mb: 2,
               color: "gray",
               fontSize: 13,
               cursor: "pointer",
@@ -92,29 +107,27 @@ const Login = () => {
             Forgot password
           </Typography>
 
-          {/* Login Button */}
+          {/* SignUp Button */}
           <Button
             fullWidth
             type="submit"
             variant="contained"
             sx={{
-              mt: 0, // reduced top margin
-              backgroundColor: "#0047BB",
               height: 46,
+              backgroundColor: "#0047BB",
               textTransform: "none",
-              borderRadius: 1,
-              "&:hover": { backgroundColor: "#003a99" },
+              mb: 2,
             }}
           >
-            Sign in
+            Sign up
           </Button>
         </form>
 
         {/* OR Divider */}
-        <Box sx={{ display: "flex", alignItems: "center", mt: 3 }}>
+        <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
           <Divider sx={{ flex: 1 }} />
-          <Typography sx={{ mx: 2, color: "gray", fontSize: 13 }}>
-            or login with
+          <Typography sx={{ mx: 2, fontSize: 13, color: "gray" }}>
+            or sign up with
           </Typography>
           <Divider sx={{ flex: 1 }} />
         </Box>
@@ -154,14 +167,14 @@ const Login = () => {
           </Button>
         </Box>
 
-        {/* Sign Up Link */}
+        {/* Sign in Link */}
         <Typography sx={{ mt: 3, textAlign: "left", color: "gray" }}>
-          Don’t have account?{" "}
+          Already have an account?{" "}
           <span
-            style={{ color: "#0047BB", fontWeight: 600, cursor: "pointer" }}
-            onClick={() => navigate("/signup")}
+            style={{ color: "#0047BB", cursor: "pointer", fontWeight: 600 }}
+            onClick={() => navigate("/login")}
           >
-            Sign up
+            Sign in
           </span>
         </Typography>
       </Paper>
@@ -169,4 +182,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

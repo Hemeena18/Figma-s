@@ -7,7 +7,7 @@ const StatCard = ({ value, label, label2 }) => (
     sx={{
       p: 3.8,
       borderRadius: 2,
-      minWidth: 260,          
+      minWidth: 250,          
       boxSizing: "border-box"
     }}
   >

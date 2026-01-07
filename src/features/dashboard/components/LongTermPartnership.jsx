@@ -5,7 +5,7 @@ const LongTermPartnership = () => {
     <Paper
       elevation={1}
       sx={{
-        width: "100%",
+        width: "88%",
          height: 220,
         p: 3,
         borderRadius: 2,

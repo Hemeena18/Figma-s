@@ -59,7 +59,7 @@ const ReminderCard = ({ items = [] }) => {
           />
 
           {/* DATE */}
-          <Typography sx={{ fontWeight: 600,fontsize:12 }}>
+          <Typography sx={{ fontWeight: 500,fontsize:12 }}>
             {it.date}
           </Typography>
         </Box>
