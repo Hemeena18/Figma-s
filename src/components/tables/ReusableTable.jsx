@@ -28,7 +28,7 @@ export default function ReusableTable({
   rows = [],
   showStatus = false,
   showActionText = false,
-  showActions = true,
+  showActions = true, // dot not show
 }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRow, setSelectedRow] = useState(null);
